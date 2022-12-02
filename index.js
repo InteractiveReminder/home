@@ -102,7 +102,7 @@ function load() {
       if (eventForDay) {
         const eventDiv = document.createElement("div");
         eventDiv.classList.add("event");
-       
+
         daySquare.appendChild(eventDiv);
       }
 
@@ -124,7 +124,8 @@ function openModal(date) {
   clicked = date;
 
 
-    newEventModal.style.display = "block";
+  newEventModal.style.display = "block";
+
 }
 
 function closeModal() {
@@ -149,92 +150,90 @@ function closeModal() {
   load();
 }
 
-function saveEvent() {
-  if (eventTitleInput.value) {
+
+  function saveEvent() {
+    let count=0;
     let today = new Date();
     today =
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
-    eventTitleInput.classList.remove("error");
-
-    if (locationName.value) {
-      locationName.classList.remove("error");
-      if (city.value) {
-        city.classList.remove("error");
-        if (country.value) {
-          country.classList.remove("error");
-          if (meetingType.value) {
-            meetingType.classList.remove("error");
-
-            if (timePicker.value) {
-              timePicker.classList.remove("error");
-
-              events.push({
-                date: clicked,
-                title: eventTitleInput.value,
-                locationName: locationName.value,
-                city: city.value,
-                country: country.value,
-                time: timePicker.value,
-                type: currentMeeting.value,
-              });
-              // Save events object into the browser localStorage
-              localStorage.setItem("events", JSON.stringify(events));
-
-              // Check if meeting set is today to check duration
-              if (today == clicked) {
-                console.log("Meeting is today");
-                timePickerValue = timePicker.value;
-                getTimeDifference(timeToMins(timePickerValue));
-                prepareAddress(locationName.value, city.value, country.value);
-              }
-            } else {
-              timePicker.classList.add("error");
-            }
-          } else {
-            meetingType.classList.add("error");
-          }
-        } else {
-          country.classList.add("error");
-        }
-      } else {
-        city.classList.add("error");
-      }
-    } else {
+      if(!eventTitleInput.value){
+        count++;
+        eventTitleInput.classList.add("error");
+      }else eventTitleInput.classList.remove("error");
+      if (!locationName.value) {
+        count++;
       locationName.classList.add("error");
+      }else locationName.classList.remove("error");
+      if (!city.value) {
+        count++;
+        city.classList.add("error");
+      }else city.classList.remove("error");
+      if (!country.value) {
+        count++;
+        country.classList.add("error");
+      }else country.classList.remove("error");
+      if (!meetingType.value) {
+        count++;
+        meetingType.classList.add("error");
+      }else meetingType.classList.remove("error");
+      if (!timePicker.value) {
+        count++;
+        timePicker.classList.add("error");
+      }else timePicker.classList.remove("error");
+      
+      if(count<1) {
+        events.push({
+          date: clicked,
+          title: eventTitleInput.value,
+          locationName: locationName.value,
+          city: city.value,
+          country: country.value,
+          time: timePicker.value,
+          type: currentMeeting.value,
+        });
+        // Save events object into the browser localStorage
+        localStorage.setItem("events", JSON.stringify(events));
+  
+        // Check if meeting set is today to check duration
+        if (today == clicked) {
+          console.log("Meeting is today");
+          timePickerValue = timePicker.value;
+          getTimeDifference(timeToMins(timePickerValue));
+          prepareAddress(locationName.value, city.value, country.value);
+        }
+        closeModal();
+        clearListItems();
+        populateList();
+}
+  }
+
+  function deleteEvent() {
+    let today = new Date();
+    today =
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+  
+    if (today == clicked) {
+      navigator.geolocation.clearWatch(watchId);
+      clearInterval(interval);
+      origin_coordinates = "";
+      destination_coordinates = "";
+      duration = 0;
+      timePickerValue = "";
+      timeDifference = 0;
+    } else {
+      origin_coordinates = "";
+      destination_coordinates = "";
+      duration = 0;
+      timePickerValue = "";
+      timeDifference = 0;
     }
-  } else {
-    eventTitleInput.classList.add("error");
+  
+    events = events.filter((e) => e.date !== clicked);
+    localStorage.setItem("events", JSON.stringify(events));
   }
-  closeModal();
-  clearListItems();
-  populateList();
-}
+  
 
-function deleteEvent() {
-  let today = new Date();
-  today =
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
-
-  if (today == clicked) {
-    navigator.geolocation.clearWatch(watchId);
-    clearInterval(interval);
-    origin_coordinates = "";
-    destination_coordinates = "";
-    duration = 0;
-    timePickerValue = "";
-    timeDifference = 0;
-  } else {
-    origin_coordinates = "";
-    destination_coordinates = "";
-    duration = 0;
-    timePickerValue = "";
-    timeDifference = 0;
-  }
-
-  events = events.filter((e) => e.date !== clicked);
-  localStorage.setItem("events", JSON.stringify(events));
-}
-
+  
 //Prepare address string into URL format --> 1
 function prepareAddress(place_name, city, country) {
   const regex = /[ ]+/gm;
@@ -301,8 +300,8 @@ class onlineMeeting extends meeting {
   alertNotification() {
     alert(
       "you have an online meeting in  " +
-        alertTiming +
-        " min. So get Comfortable!!"
+      alertTiming +
+      " min. So get Comfortable!!"
     );
   }
 }
@@ -314,9 +313,9 @@ class liveMetting extends meeting {
   alertNotification() {
     alert(
       "You have a meeting in " +
-        duration +
-        "min. So get ready to move in " +
-        "10 min"
+      duration +
+      "min. So get ready to move in " +
+      "10 min"
     );
   }
 }
@@ -329,9 +328,9 @@ class personalMeeting extends meeting {
   alertNotification() {
     alert(
       "You have a personal appointment in" +
-        duration +
-        "min.  So get ready to move in " +
-        "10 min. Drive Safe and Have Fun!"
+      duration +
+      "min.  So get ready to move in " +
+      "10 min. Drive Safe and Have Fun!"
     );
   }
 }
@@ -344,9 +343,9 @@ class exam extends meeting {
   alertNotification() {
     alert(
       "You have an exam in " +
-        duration +
-        " min.  So get ready to move in " +
-        "10 min. Best of Luck!"
+      duration +
+      " min.  So get ready to move in " +
+      "10 min. Best of Luck!"
     );
   }
 }
@@ -364,31 +363,31 @@ function getMeeting() {
   let currentMeeting = document.getElementById("types").value;
 
   //console.log(meeting2);
-  if (currentMeeting == "online") {
+  if (currentMeeting == "Online") {
     meetingPoly = new onlineMeeting();
     meetingPoly.print();
     meetingPoly.alertNotification();
   }
 
-  if (currentMeeting == "live") {
+  if (currentMeeting == "Live") {
     meetingPoly = new liveMetting();
     meetingPoly.print();
     meetingPoly.alertNotification();
   }
 
-  if (currentMeeting == "exam") {
+  if (currentMeeting == "Exam") {
     meetingPoly = new exam();
     meetingPoly.print();
     meetingPoly.alertNotification();
   }
 
-  if (currentMeeting == "personal") {
+  if (currentMeeting == "Personal") {
     meetingPoly = new personalMeeting();
     meetingPoly.print();
     meetingPoly.alertNotification();
   }
 
-  if (currentMeeting == "other") {
+  if (currentMeeting == "Other") {
     meetingPoly = new other();
     meetingPoly.print();
     meetingPoly.alertNotification();
@@ -414,6 +413,7 @@ function notifyMeeting() {
 
       if (timeDifference - duration - 10 == 0) {
         console.log("Clearing Watch");
+        alert("Ayre fi");
         getMeeting();
         navigator.geolocation.clearWatch(watchId);
         clearInterval(interval);
@@ -435,8 +435,10 @@ function getTimeDifference(chosenTime) {
   currentTime = timeToMins(
     currentTime.getHours() + ":" + currentTime.getMinutes()
   );
+
   if (chosenTime > currentTime) {
     timeDifference = chosenTime - currentTime;
+
     console.log("Time Difference: " + timeDifference);
   } else {
     console.log("Time already passed");
@@ -444,6 +446,7 @@ function getTimeDifference(chosenTime) {
     clearInterval(interval);
   }
 }
+
 
 function removeItem(id) {
   var item = document.getElementById(id);
@@ -464,6 +467,7 @@ function populateList() {
       title.innerHTML = events[i].title;
       listDiv.appendChild(title);
 
+
       let date = document.createElement("p");
       date.innerHTML = events[i].date;
       listDiv.appendChild(date);
@@ -477,8 +481,9 @@ function populateList() {
       let deleteBtn = document.createElement("div");
       deleteBtn.className = "list-btn";
       deleteBtn.onclick = (e) => {
+
         // Removes event from event summary
-        deleteEventfromList(e.target.parentElement.id);
+        deleteEventfromList(e.path[1].id);
 
         // Delete event from calendar and storage
         deleteEvent();

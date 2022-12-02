@@ -32,7 +32,7 @@
     </div>
 
     <div id="eventSummary">
-      <h1>EVENT SUMMARY</h1>
+      <h1 id="summary">EVENT SUMMARY</h1>
       <ul id="event-list"></ul>
     </div>
 
@@ -40,12 +40,12 @@
       <h2>New Event</h2>
 
       <input id="eventTitleInput" placeholder="Event Title" />
-      <input id="eventLocationName" placeholder="event location name" />
-      <input id="eventCityInput" placeholder="event city location" />
-      <input id="eventCountryInput" placeholder="event country location" />
+      <input id="eventLocationName" placeholder="Event Location Name" />
+      <input id="eventCityInput" placeholder="Event City Location" />
+      <input id="eventCountryInput" placeholder="Event Country Location" />
       <input
         list="meetingTypes"
-        placeholder="meeting Type"
+        placeholder="Meeting Type"
         id="types"
         onfocus="this.value=''"
         onchange="this.blur();"
@@ -65,9 +65,7 @@
       <button id="cancelButton">Cancel</button>
     </div>
 
-    <div id="addEvents">
-      <h2>New Event</h2>
-    </div>
+    
 
     <div id="modalBackDrop"></div>
 
