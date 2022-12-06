@@ -1,17 +1,20 @@
 html {
-  height: 100%;
-  overflow: hidden;
+  padding-right:5cm;
+  background-image: url(calendar.png);
+  width:100%;
+  height:100%;;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 body {
   display: flex;
   flex-direction: row;
   margin-top: 50px;
-  background-color: #130d0d;
   justify-content: center;
   align-items: flex-start;
   height: 100%;
-  zoom: 80%;
 }
 
 button {
@@ -26,10 +29,11 @@ button {
 }
 
 #header {
+  font-family: "Poppins";
   padding: 10px;
-  color: rgba(160, 159, 160, 1);
+  color: rgb(213, 13, 13);
   font-size: 26px;
-  
+
   display: flex;
   justify-content: space-between;
 }
@@ -47,9 +51,10 @@ button {
 
 
 #weekdays {
+  
   width: 770px;
   display: flex;
-  color: white;
+  color: black;
   font-size: 20px;
 
 }
@@ -58,7 +63,8 @@ button {
 
 #weekdays div {
   width: 100px;
-  padding: 10px;
+  padding: 15px;
+
 }
 
 
@@ -70,7 +76,7 @@ button {
 
 }
 
-.day {
+/* .day {
 
   width: 100px;
   padding: 10px;
@@ -87,54 +93,101 @@ button {
   border-color: white;
   color: white;
   font-size: 20px;
- 
-  
+
+
+} */
+
+.day {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05), 25px 35px 20px rgba(0, 0, 0, 0.05), 25px 35px 20px rgba(0, 0, 0, 0.05), inset -20px -20px 25px rgba(255, 255, 255, 0.9);
+  border-radius: 57% 43% 43% 57% / 43% 43% 57% 57%;
+  transition: 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
+
 
 
 .day:hover {
-  background-color:#FFD700;
+  background-color: #FFD700;
+  border-radius: 50%;
 }
 
 .day+#currentDay {
-  background-color: 	#222020;
-  box-shadow:3px 3px 0px #FFD700;
+  box-shadow: 3px 3px 0px #0c0c0b;
 
 }
 
-.event {
+/* .event {
   padding: 3px;
   background-color: red;
   color: white;
   border-radius: 0px;
   max-height: 55px;
- 
- border-radius:2px;
-  overflow: hidden;
-}
 
+  border-radius: 2px;
+  overflow: hidden;
+} */
+
+.event {
+  content: '';
+  position: absolute;
+  bottom: 19px;
+  left: 44%;
+  width: 15px;
+  height: 15px;
+  background: #cd0000f6;
+  border-radius: 50%;
+}
 .padding {
   cursor: default !important;
-  background-color: #110f0f !important;
   box-shadow: none !important;
+  background-color: transparent !important;
 }
 
 #newEventModal {
+  background-color: #131010;
+  padding: 25px;
+  border-radius: 5px;
+  border: 2px solid rgb(233, 225, 225);
   color: white;
   display: none;
   z-index: 20;
-  padding: 25px;
-  background-color: #131010;
-  border: 2px solid rgb(233, 225, 225);
-
-  border-radius: 5px;
-  width: 350px;
-  top: 100px;
-  left: calc(50% - 175px);
+  width: 600px;
+  top: 10vh;
   position: absolute;
 
 
 
+}
+
+#newEventModalWithMap {
+  display: flex;
+  flex-direction: row;
+}
+
+#map {
+  position: relative;
+  text-align: right;
+  display: none;
+  width: 600px;
+  height: 500px;
+  margin-bottom: 20px;
+
+}
+
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 500px;
+  width: 600px;
 }
 
 #eventTitleInput {
@@ -148,7 +201,7 @@ button {
   box-shadow: 0px 0px 3px gray;
   background-color: white;
   border-radius: 0.2cm;
-  
+
 }
 
 #eventCountryInput {
@@ -161,7 +214,7 @@ button {
   border: none;
   box-shadow: 0px 0px 3px gray;
   border-radius: 0.2cm;
-  
+
 }
 
 #eventLocationName {
@@ -174,7 +227,7 @@ button {
   border: none;
   box-shadow: 0px 0px 3px gray;
   border-radius: 0.2cm;
-  
+
 }
 
 #eventCityInput {
@@ -201,7 +254,7 @@ button {
   box-shadow: 0px 0px 3px gray;
   text-align: center;
   border-radius: 0.2cm;
-  
+
 }
 
 #types {
@@ -215,7 +268,7 @@ button {
   box-shadow: 0px 0px 3px gray;
   text-align: center;
   border-radius: 0.2cm;
- 
+
 
 
 }
@@ -250,20 +303,6 @@ button {
   background-color: #d85e17;
 }
 
-/* #addEvents {
-  display: none;
-  z-index: 20;
-  padding: 25px;
-  background-color: #e8f4fa;
-  box-shadow: 0px 0px 3px black;
-  border-radius: 5px;
-  width: 350px;
-  top: 100px;
-  left: calc(50% - 175px);
-  position: absolute;
-  font-family: sans-serif;
-
-} */
 
 #eventText {
   font-size: 14px;
@@ -280,68 +319,74 @@ button {
   background-color: rgba(0, 0, 0, 0.8)
 }
 
+
 /* Styling for Event Summary */
 
 #eventSummary {
-  /*border: solid white 2px;*/
+  font-family: "Poppins";
   border-radius: 20px;
   width: 70%;
   text-align: center;
   min-height: 80%;
-  max-height: 80%;
-  overflow-y: scroll;
+  max-height: 100%;
+
   margin-left: 15px;
   margin-right: 10px;
-  color:white;
-  
-  
+  color: black;
+  overflow-y: scroll;
 }
 
 #event-list {
   list-style: none;
 }
 
-
-
-
 .list-item {
   display: flex;
-  
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  border: solid black 2px;
+  border: solid 2px;
   margin: 10px;
   padding: 10px;
   border-radius: 20px;
-  height: 60px;
- 
+  height: fit-content;
+  box-shadow: inset 20px 20px 20px rgba(0, 0, 0, 0.05), 25px 35px 20px rgba(0, 0, 0, 0.05), 25px 35px 20px rgba(0, 0, 0, 0.05), inset -20px -20px 25px rgba(255, 255, 255, 0.9);
+  background-color: #ffffff99;
   color: black;
-  background-color: #3d3838;
-  border-color:#FFD700;
- 
 
+}
+
+.list-item:hover{
+  border-color: rgb(213, 13, 13);
 }
 
 .text-div {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   font-size: 30px;
   font-weight: bold;
   line-height: 2px;
   gap: 1em;
-  color:white;
- 
-  
+  color: rgb(28, 28, 28);
+  width: max-content;
+
+
 }
 
 .list-btn {
   padding: 10px;
-  width: 30px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   background-image: url("./trash.png");
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: 60px;
+  background-size: 100%;
   cursor: pointer;
-
+  
 }
+.list-btn:hover{
+  background-image: url("./ban.svg");
+}
+
